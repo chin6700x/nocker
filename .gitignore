@@ -1,0 +1,27 @@
+# Build artifacts
+/bin/
+/build/
+PLAN.md
+plan/
+/plan/
+*.o
+*.d
+*.dylib
+*.a
+
+# Local Storage and Sockets
+*.sock
+.nocker/
+/storage/
+*.pid
+*.raw
+
+# Temporary and test artifacts
+*.log
+*.tmp
+/tmp/
+
+# macOS system files
+.DS_Store
+*.swp
+*~

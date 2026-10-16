@@ -1,0 +1,41 @@
+name: ⚡ Nocker Apple Silicon CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-and-test:
+    name: Build & Differential Parity Test (Apple Silicon)
+    runs-on: macos-14
+    steps:
+      - name: 📥 Check out repository
+        uses: actions/checkout@v4
+
+      - name: 🔍 Inspect Hardware & Silicon Environment
+        run: |
+          echo "Operating System: $(uname -s) $(uname -r)"
+          echo "Architecture: $(uname -m)"
+          sysctl -n machdep.cpu.brand_string || true
+          clang --version
+
+      - name: ⚡ Compile Nocker Engine
+        run: |
+          make clean
+          make all
+
+      - name: 🧪 Run Socket & Differential Parity Test Suite
+        run: |
+          make test
+
+      - name: 🔬 Run Multi-Language AST & Assembly Benchmark
+        run: |
+          make test-languages
+
+      - name: 📦 Verify Installation & Doctor Probe
+        run: |
+          make install
+          ~/.local/bin/nocker doctor
+          ~/.local/bin/nocker version
